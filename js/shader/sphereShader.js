@@ -15,8 +15,8 @@ varying vec3 vUv;
 varying vec3 vNormal;
 
 void main(void) {
-  float intensity = 1.05 - dot(vNormal, vec3(0.0, 0.0, 1.0));
+  float intensity = 1.25 - dot(vNormal, vec3(0.0, 0.0, 1.0));
   vec3 atmosphere = vec3(1.0, 1.0, 1.0) * pow(intensity * 1.5, 3.0);
-  gl_FragColor = vec4(vec3(0.0, 1.2, 2.0) * atmosphere, 0.5);
+  gl_FragColor = vec4(vec3(0.0, 0.7, 2.0) * atmosphere, 0.5);
 }
 `;
