@@ -1,0 +1,68 @@
+\contentsline {chapter}{\numberline {1}Analysis}{1}{}%
+\contentsline {section}{\numberline {1.1}Background Research}{1}{}%
+\contentsline {subsection}{\numberline {1.1.1}Graphics}{1}{}%
+\contentsline {subsection}{\numberline {1.1.2}APIs}{2}{}%
+\contentsline {section}{\numberline {1.2}Analysis of Current \& Similar Systems}{5}{}%
+\contentsline {subsection}{\numberline {1.2.1}Github}{5}{}%
+\contentsline {subsection}{\numberline {1.2.2}Earth Day 2018 - Plus 360 Degrees}{7}{}%
+\contentsline {subsection}{\numberline {1.2.3}Experiments with Google - WebGL Globe}{9}{}%
+\contentsline {section}{\numberline {1.3}Prospective Users and Client}{12}{}%
+\contentsline {subsection}{\numberline {1.3.1}Client}{12}{}%
+\contentsline {section}{\numberline {1.4}Solution Proposals}{13}{}%
+\contentsline {subsection}{\numberline {1.4.1}Rendering of the globe}{13}{}%
+\contentsline {subsection}{\numberline {1.4.2}User Input}{14}{}%
+\contentsline {subsection}{\numberline {1.4.3}API requests \& country information}{14}{}%
+\contentsline {subsection}{\numberline {1.4.4}Formatting}{15}{}%
+\contentsline {subsection}{\numberline {1.4.5}Graphics}{16}{}%
+\contentsline {section}{\numberline {1.5}Modelling of Problem}{17}{}%
+\contentsline {subsection}{\numberline {1.5.1}Rendering \& Animating}{17}{}%
+\contentsline {subsection}{\numberline {1.5.2}User Input}{18}{}%
+\contentsline {subsection}{\numberline {1.5.3}API Querying}{19}{}%
+\contentsline {subsection}{\numberline {1.5.4}Conclusionary Model}{19}{}%
+\contentsline {section}{\numberline {1.6}Critical Path of Stages}{20}{}%
+\contentsline {section}{\numberline {1.7}Objectives}{21}{}%
+\contentsline {subsection}{\numberline {1.7.1}Main objectives}{21}{}%
+\contentsline {subsection}{\numberline {1.7.2}Additional \& Further objectives}{21}{}%
+\contentsline {section}{\numberline {1.8}User Requirements}{22}{}%
+\contentsline {chapter}{\numberline {2}Design}{23}{}%
+\contentsline {section}{\numberline {2.1}High Level Overview}{23}{}%
+\contentsline {section}{\numberline {2.2}Description of Algorithms}{24}{}%
+\contentsline {subsection}{\numberline {2.2.1}Rendering of the globe}{24}{}%
+\contentsline {subsection}{\numberline {2.2.2}User Input}{26}{}%
+\contentsline {subsection}{\numberline {2.2.3}API Querying}{29}{}%
+\contentsline {section}{\numberline {2.3}Description of Data Structures}{31}{}%
+\contentsline {subsection}{\numberline {2.3.1}JSON}{31}{}%
+\contentsline {subsection}{\numberline {2.3.2}THREE.js}{31}{}%
+\contentsline {section}{\numberline {2.4}User Interface}{32}{}%
+\contentsline {subsection}{\numberline {2.4.1}The Globe}{32}{}%
+\contentsline {subsection}{\numberline {2.4.2}Input Feedback}{33}{}%
+\contentsline {subsection}{\numberline {2.4.3}API Interface}{34}{}%
+\contentsline {section}{\numberline {2.5}System security and integrity of data}{35}{}%
+\contentsline {chapter}{\numberline {3}Technical Solution}{36}{}%
+\contentsline {section}{\numberline {3.1}Set up}{36}{}%
+\contentsline {section}{\numberline {3.2}THREE.js}{38}{}%
+\contentsline {subsection}{\numberline {3.2.1}Setting up the scene}{39}{}%
+\contentsline {subsection}{\numberline {3.2.2}Populating the scene}{40}{}%
+\contentsline {subsection}{\numberline {3.2.3}Rendering and animating the scene}{41}{}%
+\contentsline {subsection}{\numberline {3.2.4}Overview}{43}{}%
+\contentsline {section}{\numberline {3.3}WebGL Shaders and GLSL}{45}{}%
+\contentsline {subsection}{\numberline {3.3.1}Introduction to shaders}{45}{}%
+\contentsline {subsection}{\numberline {3.3.2}Shading}{46}{}%
+\contentsline {subsection}{\numberline {3.3.3}Mapping the globe texture}{51}{}%
+\contentsline {subsection}{\numberline {3.3.4}Creating an atmosphere}{52}{}%
+\contentsline {subsection}{\numberline {3.3.5}Stars}{54}{}%
+\contentsline {subsection}{\numberline {3.3.6}Overview}{57}{}%
+\contentsline {section}{\numberline {3.4}User Input}{60}{}%
+\contentsline {subsection}{\numberline {3.4.1}Orbital Controls}{60}{}%
+\contentsline {subsection}{\numberline {3.4.2}Country Selection}{61}{}%
+\contentsline {section}{\numberline {3.5}API Requests \& User Interface}{67}{}%
+\contentsline {subsection}{\numberline {3.5.1}Overview}{71}{}%
+\contentsline {chapter}{\numberline {4}Testing}{81}{}%
+\contentsline {section}{\numberline {4.1}Test Plan}{81}{}%
+\contentsline {section}{\numberline {4.2}Accuracy Testing}{82}{}%
+\contentsline {subsection}{\numberline {4.2.1}Test Conclusion}{84}{}%
+\contentsline {section}{\numberline {4.3}API Testing}{85}{}%
+\contentsline {subsection}{\numberline {4.3.1}Test Conclusion}{86}{}%
+\contentsline {chapter}{\numberline {5}Evaluation}{87}{}%
+\contentsline {section}{\numberline {5.1}Objective Completeness and Improvements}{87}{}%
+\contentsline {section}{\numberline {5.2}Conclusion}{88}{}%

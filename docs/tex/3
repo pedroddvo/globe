@@ -1,0 +1,89 @@
+\chapter{Design}
+
+\section{High Level Overview}
+The goal of this section is to provide a high level, top down overview of the entire project. I have combined all the ideas that I have taken from the research, and compiled them down into many steps in order of priority, including algorithms and pseudocode snippets for which I may look back upon and integrate into the real process. \\
+From what I have compiled, I have created an overview from the compilation of these ideas. \\
+
+\textbf{The Project} \\
+The project which I will be developing is a web based application, which contains a well presented and realistic globe representing the earth, allowing for a satellite view of the globe. The globe will appear suspended in space, upon which it can be manipulated using the mouse, where it can be rotated, moved around, and interacted with. These interactions may do many things. The dragging of the mouse, for example, will rotate the sphere, the hovering over countries will highlight them, allowing them to be clicked. Upon a mouse click, a country is selected, and useful information about the country is displayed, allowing students in analytics courses or people with interests in country data to note, all displayed in a unique manner, allowing for a unique experience. Not only may it be useful for students, or people in data science; people whom appreciate the beauty of the earth may enjoy toying around with the globe. \\
+I was partially inspired by similar projects, such as Google Earth, I thought that the way the globe was represented was interesting, and thought that I may undertake in a similar project, adding my own unique twist.
+
+\section{Description of Algorithms}
+The goal of this section is to compile some algorithms written in pseudocode format, it contains a code based approach to the project problems.
+
+\subsection{Rendering of the globe}
+Before rendering the globe, we must set up the scene for which our globe can be displayed in, and we must define how the camera will see our object:
+\begin{lstlisting}
+GlobeScene = Scene()
+Camera = PerspectiveCamera({
+	field of view = 75 degrees,
+	aspect ratio = WINDOW WIDTH / WINDOW HEIGHT
+})
+
+// The renderer is the HTML component where our sphere can be seen
+Renderer = WebGLRenderer({
+	size = WINDOW WIDTH, WINDOW HEIGHT
+})
+ADD Renderer TO HTML PAGE
+\end{lstlisting}
+The globe will be rendered in many steps, for example, the earth's sphere will be displayed, then an atmosphere will be layered, then perhaps clouds will be layered in between the atmosphere and the earth, etcetera. \\
+All spheres will be initialized the same way. Taking inspiration from how \verb|THREE.js| declares 3D objects, I have a vague idea on how this will be done:
+\begin{lstlisting}
+Radius = 50
+WorldTexture = LoadTexture("world.png")
+GlobeGeometry = SphereGeometry(Radius)
+GlobeMaterial = Material({
+	texture = WorldTexture
+	colour = NO COLOUR
+})
+Globe = Mesh(GlobeGeometry, GlobeMaterial)
+Globe.position = 0, 0, 0
+ADD Globe TO SCENE
+\end{lstlisting}
+The atmosphere will be another sphere, layered on top of the globe, with a slightly larger radius. The atmosphere will be rendered slightly different from the globe. Since it changes depending on where you look at it, it would be appropriate to use a shader that will colour the pixels in a way that looks like an atmosphere. \\
+\textbf{Atmosphere Sphere Code}
+\begin{lstlisting}
+Radius = 60
+AtmosphereGeometry = SphereGeometry(Radius)
+AtmosphereMaterial = ShaderMaterial({
+	shader = LOAD SHADERS
+	colour = NO COLOUR
+})
+Atmosphere = Mesh(GlobeGeometry, GlobeMaterial)
+Atmosphere.position = 0, 0, 0
+\end{lstlisting}
+\textbf{Atmosphere Shader Code} \\
+This code won't be trivial. We need to think of a way of rendering an atmosphere. Firstly, what does an atmosphere look like? Let's think about this like a programmer - an atmosphere can be rendered like a transparent sphere, where a slight blue tinge can diffuse outwards towards the edges of a sphere. In short, from the eyes of a person, the sphere gets more and more transparent towards the middle of the sphere. Therefore, the sphere gets updated so that the middle looks transparent wherever you are looking from. This is where shaders come in handy, because we can work directly on the pixels procedurally, and also because we have the vertex data of the sphere, allowing us to know where all the points are on the sphere, and apply a colour to the pixels in each point depending on where the point is. \\
+Let's tackle the problem of transparency. We want the blue tinge to slowly and gradually become lighter and more transparent towards the middle of the sphere, but first, we need to know how close to the 'middle' we are to the sphere. By doing some research, I have concluded that to do this, we need to know the \textbf{normal} of each point of the sphere. The \textbf{normal} of a point is the perpendicular vector from the surface of the object (in this case a sphere), here is a visual of what a normal is\footnote{https://www.scratchapixel.com/lessons/advanced-rendering/rendering-distance-fields/basic-sphere-tracer}: \\
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.2\linewidth]{images/screenshot004}
+\caption{}
+\label{fig:screenshot004}
+\end{figure}
+The 'N' represents the \textbf{normal}. Each vertex of a sphere has a normal vector, pointing \textit{away} from the sphere. This is exactly what we want, because normals that are pointing \textit{towards} us can be measured. Think of a sphere, the normals at the very edge of a sphere will point exactly left or right, where as points directly in the middle of a sphere will point towards you. For example, in the figure above, the normal is pointing slightly towards us. \\
+But how do we measure how much the normal is pointing towards us? We need to use a vector operation called the \textbf{dot product}. The dot product combines two vectors into a single value, the resulting value tells you what amount of one vector \textit{goes in the direction of another vector}. For example, lets say we have a box and an inclined ramp, and we push it \textbf{up the ramp}. The box has a \textit{horizontal} component and \textit{vertical} component to the force vector. So the dot product in this case represents the total amount of force going in the \textbf{direction up the ramp}. \\
+How can we integrate this knowledge into our shader code however? We need to find how much the normal to the sphere points towards us. From the camera lens, forwards is the \textbf{z axis}. Therefore, if we use the dot product against the normal and a vector where the x, y components are zero and the z component is, lets say, 1, then the resulting value will tell us how much the normal points towards us!
+$$
+Normal \cdot \begin{bmatrix} 0.0 \\ 0.0 \\ 1.0 \\ \end{bmatrix}
+	= \textrm{Measure of how strongly the vector points towards camera}
+$$
+We can now use this formula and multiply the result by the colour of the atmosphere that we want, in this case, a slightly cyan colour. This is the pseudocode I came up with:
+\begin{lstlisting}
+Intensity = DotProduct(Normal, Vector(0, 0, 1))
+Atmosphere = Vector(0, 1.2, 2.0) * Intensity
+Pixel Colour = Vector(Atmosphere.XYZ, 0.5)
+\end{lstlisting}
+
+\subsection{User Input}
+After the globe is rendered, we can handle our user input. We are focusing primarily on mouse input, as I feel like keyboard input is not necessary. \\
+Firstly, we need to move our globe. Since the globe is a sphere, I am thinking of implementing a simple orbit control system. \\
+
+\textbf{Orbital Controls - Rotation} \\
+Orbital controls involve clamping the camera into a sphere. Thus, the camera cannot move outside the edges of the sphere. \\
+Let's think of this as a two dimensional circle first:
+\begin{center}
+\begin{tikzpicture}
+    \draw[thick] circle (2 cm);
+\end{tikzpicture}
+\end{center}

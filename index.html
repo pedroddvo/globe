@@ -9,13 +9,14 @@
             .data-container {
                 position: absolute;
                 display: grid;
-                bottom: 0;
-                right: 0;
-                background: rgba(0, 0, 0, 0.2);
-                min-height: 50vh;
+                height: 100%;
                 width: 20vw;
-                border-radius: 15px;
-                border: 2px solid #FFFFFF;
+                right: 0;
+
+                background: #000000;
+                border-color: #FFFFFF;
+                border-width: 2px;
+                border-left-style: solid;
             }
 
             .data-title {
@@ -30,6 +31,8 @@
                 font-family: Arial, Helvetica, sans-serif;
                 color: white;
                 text-align: center;
+                margin-top: 1vh;
+                margin-bottom: 1vh;
             }
 
             .data-flag {
@@ -37,7 +40,7 @@
                 margin-left: auto;
                 margin-right: auto;
                 height: 10vh;
-                width:  10vh;
+                width:  10vw;
                 object-fit: contain;
             }
 		</style>
@@ -46,12 +49,35 @@
         <div class="data-container" id="container">
             <div>
                 <p class="data-title data-text" id="title"></p>
+                <p class="data-text" id="lat-long-position"></p>
+                <p class="data-text" id="currency"></p>
                 <img class="data-flag" style="visibility: hidden" id="flag"></img>
             </div>
 
             <div>
                 <p class="data-header data-text" id="population-header"></p>
                 <p class="data-text" id="population"></p>
+            </div>
+
+            <div>
+                <p class="data-header data-text" id="cities-header"></p>
+                <p class="data-text" id="cities-capital"></p>
+                <p class="data-text" id="cities-count"></p>
+            </div>
+
+            <div>
+                <p class="data-header data-text" id="wdi-header"></p>
+                <p class="data-text" id="wdi-gdp"></p>
+                <p class="data-text" id="wdi-unemployment"></p>
+                <p class="data-text" id="wdi-popgrow"></p>
+                <p class="data-text" id="wdi-lifeexpectancy"></p>
+            </div>
+
+            <div>
+                <p class="data-header data-text" id="environment-header"></p>
+                <p class="data-text" id="env-co2"></p>
+                <p class="data-text" id="env-forestarea"></p>
+                <p class="data-text" id="env-electricity"></p>
             </div>
         </div>
         <script type="module" src="js/main.js"></script>

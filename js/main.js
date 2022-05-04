@@ -34,7 +34,6 @@ const atmosphere = new THREE.Mesh(
     fragmentShader: sphereShader.fragment,
   })
 );
-atmosphere.opacity = 0.2;
 
 scene.add(atmosphere);
 
@@ -81,33 +80,133 @@ function ltoxyz(r, lng, lat) {
   };
 }
 
-function postJSON(url, data) {
+function postJSON(url, data, f) {
     return fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-    });
+    }).then(jdata => jdata.json().then(f));
+}
+
+function getJSON(url, f) {
+    return fetch(url).then(jdata => jdata.json().then(f));
+}
+
+function setContent(id, content) {
+    document.getElementById(id).textContent = content;
 }
 
 function queryCountry(country) {
-    document.getElementById("title").textContent = country.country;
+    setContent("title", country.country);
+    setContent("lat-long-position",
+            "~"
+            + Math.abs(country.latitude)  + (country.latitude  > 0 ? "°N" : "°S")
+            + " "
+            + Math.abs(country.longitude) + (country.longitude > 0 ? "°E" : "°W"))
 
+    setContent("population-header", "Population");
     postJSON("https://countriesnow.space/api/v0.1/countries/population", {
         "iso3": country.alpha3
-    }).then(jdata => jdata.json().then(data => {
+    }, data => {
         let latest = data.data.populationCounts
                               .reduce((a, b) => (a.year < b.year) ? b : a, { year: 0 })
-        document.getElementById("population-header").textContent = "Population";
-        document.getElementById("population").textContent = latest.value;
-    }))
+        setContent("population", latest.value);
+    })
 
     postJSON("https://countriesnow.space/api/v0.1/countries/flag/images", {
         "iso2": country.alpha2
-    }).then(jdata => jdata.json().then(data => {
+    }, data => {
         let flag = document.getElementById("flag");
         flag.style.visibility = "visible";
         flag.src = data.data.flag;
-    }))
+    })
+
+    setContent("cities-header", "Cities");
+    postJSON("https://countriesnow.space/api/v0.1/countries/cities", {
+        "iso2": country.alpha2
+    }, data => {
+        setContent("cities-count", data.data.length + " cities");
+    })
+
+    postJSON("https://countriesnow.space/api/v0.1/countries/capital", {
+        "iso2": country.alpha2
+    }, data => {
+        setContent("cities-capital", "Capital: " + data.data.capital);
+    })
+
+    postJSON("https://countriesnow.space/api/v0.1/countries/currency", {
+        "iso2": country.alpha2
+    }, data => {
+        setContent("currency", data.data.currency + "$")
+    })
+
+    // WorldBank WDI Data
+    
+    // Get GDP with most recent value (~2020) of country
+    setContent("wdi-header", "World Development Indicators");
+    getJSON(`http://api.worldbank.org/v2/country/${country.alpha2}/indicator/NY.GDP.PCAP.PP.CD?mrv=1&format=json`, data => {
+        if (data.length <= 1) {
+            setContent("wdi-gdp", "N/A");
+            return;
+        }
+        setContent("wdi-gdp", "GDP: " + data[1][0].value.toFixed(2) + "$");
+    })
+
+    getJSON(`http://api.worldbank.org/v2/country/${country.alpha2}/indicator/SL.UEM.TOTL.ZS?mrv=1&format=json`, data => {
+        if (data.length <= 1) {
+            setContent("wdi-unemployment", "N/A");
+            return;
+        }
+        setContent("wdi-unemployment", "Unemployment: " + data[1][0].value.toFixed(2) + "%");
+    })
+
+    // Population growth (annual %)
+    getJSON(`http://api.worldbank.org/v2/country/${country.alpha2}/indicator/SP.POP.GROW?mrv=1&format=json`, data => {
+        if (data.length <= 1) {
+            setContent("wdi-popgrow", "N/A");
+            return;
+        }
+        setContent("wdi-popgrow", "Population Growth: " + data[1][0].value.toFixed(2) + "% p.a");
+    })
+
+    // Life expectancy in years
+    getJSON(`http://api.worldbank.org/v2/country/${country.alpha2}/indicator/SP.DYN.LE00.IN?mrv=1&format=json`, data => {
+        if (data.length <= 1) {
+            setContent("wdi-lifeexpectancy", "N/A");
+            return;
+        }
+        setContent("wdi-lifeexpectancy", "Life Expectancy: " + data[1][0].value.toFixed(2) + " years");
+    })
+
+    // Environmental data
+    setContent("environment-header", "Environment");
+
+    // CO2 Emissions
+    getJSON(`http://api.worldbank.org/v2/country/${country.alpha2}/indicator/EN.ATM.CO2E.PC?mrv=1&format=json`, data => {
+        if (data.length <= 1) {
+            setContent("env-co2", "N/A");
+            return;
+        }
+        setContent("env-co2", "CO2 Emissions: " + data[1][0].value.toFixed(2) + "mt/capita");
+    })
+
+    // Forest area
+    getJSON(`http://api.worldbank.org/v2/country/${country.alpha2}/indicator/AG.LND.FRST.ZS?mrv=1&format=json`, data => {
+        if (data.length <= 1) {
+            setContent("env-forestarea", "N/A");
+            return;
+        }
+        setContent("env-forestarea", "Forest Area: " + data[1][0].value.toFixed(2) + "%");
+    })
+
+    // Access to electricity (% of population)
+    getJSON(`http://api.worldbank.org/v2/country/${country.alpha2}/indicator/EG.ELC.ACCS.ZS?mrv=1&format=json`, data => {
+        if (data.length <= 1) {
+            setContent("env-electricity", "N/A");
+            return;
+        }
+        setContent("env-electricity", "Access to electricity: " + data[1][0].value.toFixed(2) + "% of pop.");
+    })
 }
 
 function onDocumentMouseDown(event) {

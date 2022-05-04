@@ -1,0 +1,50 @@
+\chapter{Evaluation}
+\section{Objective Completeness and Improvements}
+\begin{enumerate}
+    \item \textbf{Rendering the globe}
+        \begin{itemize}
+            \item \textbf{Completeness}
+                In the final program, the user is able to see a globe on the screen, with a well rendered atmosphere covering the globe. The globe is wrapped with a texture of the earth.
+            \item \textbf{Improvements}
+                In the final program, I could add clouds, to add some more realism.
+        \end{itemize}
+    \item \textbf{User Input} \\
+        The user must be able to rotate the globe.
+        \begin{itemize}
+            \item \textbf{Completeness}
+                In the final program, the user is able to rotate the globe, and zoom in and out away or towards the globe using only the mouse.
+            \item \textbf{Improvements}
+                I don't think this objective requires any extra improvements.
+        \end{itemize}
+        The user must be able to click and select a country.
+        \begin{itemize}
+            \item \textbf{Completeness}
+                In the final program, the user is able to click and select a country, provided that they roughly click inside the countries borders.
+            \item \textbf{Improvements}
+                I think that, the model which I used (closest neighbour) could be improved upon by switching to a method which involves actual country borders. This would resolve any issues such as clicking the water resulting in selecting the nearest country, and would also improve the accuracy of the selection.
+        \end{itemize}
+    \item \textbf{API Requests} \\
+        The user must be able to read the selected countries name, and see the countries flag.
+        \begin{itemize}
+            \item \textbf{Completeness}
+                This objective is complete.
+        \end{itemize}
+        The user should be able to read the population of the country, and its native currency.
+        \begin{itemize}
+            \item \textbf{Completeness}
+                This objective is complete.
+            \item \textbf{Improvements}
+                In some edge-cases, such as very small islands or barely habited countries, the population is not valid. This causes no update in the user interface (no switch from the previous result to N/A) and thus can cause confusion. This bug needs fixing.
+        \end{itemize}
+        The user could be able to see extra data points, such as GDP, or environmental factors.
+        \begin{itemize}
+            \item \textbf{Completeness}
+                This objective is complete.
+            \item \textbf{Improvements}
+                In some edge-cases, such as very small islands or barely habited countries, the World Bank database may not contain entries for these countries. A potential solution to this is to extract data from many databases, and pick the valid result.
+        \end{itemize}
+\end{enumerate}
+
+\section{Conclusion}
+In conclusion, I think that my project is quite well built. It's quite accurate, and it checks all of the main objectives which I was required to complete. Most of the features work out of the box, and there is very little user requirement or thought to use the app. \\ \\
+If I were to continue the development of this web application, I would probably polish the globe, and make it look really realistic, I think that would look great. I think a nice update to the appearance of the HTML \& CSS user interface would be also a great addition.

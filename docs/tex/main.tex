@@ -1,0 +1,48 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{tikz}
+
+\hbadness=99999
+
+\graphicspath{{./images}}
+
+\lstset{
+	tabsize=2,
+	basicstyle=\small,
+	breaklines=true,
+}
+
+\begin{document}
+
+\author{Pedro Oliveira}
+\title{
+	Globe \\
+	\large 2022 Computer Science NEA \\
+	\small https://github.com/pedroddvo/globe
+}
+	
+\date{2022}
+
+\let\cleardoublepage=\clearpage
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+\include{./TeX_files/chapter01}
+\include{./TeX_files/chapter03}
+\include{./TeX_files/chapter02}
+\include{./TeX_files/chapter04}
+\include{./TeX_files/chapter05}
+
+\backmatter
+% bibliography, glossary and index would go here.
+
+\end{document}
